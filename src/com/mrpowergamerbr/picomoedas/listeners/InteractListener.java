@@ -52,6 +52,10 @@ public class InteractListener implements Listener {
                             
                             if (itemInfo.isSelling()) {
                                 if (PicoMoedasAPI.getBalance(p).getValue() >= itemInfo.getPrice()) {
+                                    if (p.getInventory().firstEmpty() == -1) {
+                                        return;
+                                    }
+                                    
                                     PicoMoedasAPI.editBalance(p, -itemInfo.getPrice());
                                     if (itemInfo.getToGive() != null) {
                                         p.getInventory().addItem(itemInfo.getToGive().toItemStack());
