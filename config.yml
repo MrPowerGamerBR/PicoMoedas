@@ -1,8 +1,86 @@
-LojaPadr�o: Geral
+# PicoMoedas - Criado por MrPowerGamerBR
+Mensagens:
+    SuasMoedas: "Moedas: {@moedas}"
+    SemMoedas: "Você não tem moedas suficientes!"
+LojaPadrão: "Geral" # Quando alguém usar "/lojagui", ele irá abrir por padrão o menu "Geral"
 Lojas:
     Geral:
-        Nome: "&6&lPicoMoedas"
-        Tamanho: 18
+        Nome: "&6&lPicoMoedas" # Nome da GUI
+        Tamanho: 18 # Tamanho da GUI
         Slots:
             1:
-                Material: DIAMOND_BLOCK
+                Material: DIAMOND_SWORD
+                AbrirMenu: "Espadas" # Ao clicar neste item, o menu "Espadas" irá abrir
+                Nome: "&c&lVer espadas"
+            2:
+                Material: NETHER_STAR
+                AbrirMenu: "Especial"
+                Nome: "&c&lVer créditos e inutilidades!"
+            3:
+                Material: REDSTONE_BLOCK
+                FecharMenu: true
+                Nome: "&4&lFechar Menu..."
+    Espadas:
+        Nome: "&c&lEspadas"
+        Tamanho: 9
+        Slots:
+            4:
+                Material: DIAMOND_SWORD
+                Grana: 355
+                Nome: "&a&l&k|||&f &b&lMrPowerGamerBR &a&l&k|||"
+                Lore:
+                - "&7A espada do MrPowerGamerBR."
+                Enchants:
+                - "DAMAGE_ALL 4"
+                ItemFlags:
+                - "HIDE_ENCHANTS"
+            5:
+                Material: DIAMOND_SWORD
+                Grana: 255
+                Nome: "&a&lEspada do ENEM"
+                Lore:
+                - "&7Insira mensagem filosófica aqui."
+                - "&7"
+                - "&7Interrompemos a sua descrição para os reclames do plim plim"
+                - "&3SparklyPower: http://sparklypower.net/"
+            6:
+                Material: STONE_SWORD
+                Grana: 120
+                Nome: "&c&lEspada"
+                Lore:
+                - "&7You’re so indecisive of what I’m saying"
+                - "&7Tryna catch the beat, make up your heart"
+                - "&7Don't know if you're happy or complaining"
+                - "&7Don't want for us to end, where do I start?"
+                ItemSeparado: # Se você criar um "item separado", você pode mostrar um item na GUI mas vender outro!
+                    Material: DIAMOND_SWORD
+                    Nome: "&c&lEspada"
+                    Lore:
+                    - "&7Você achava que era uma espada horrível, né?"
+                    Enchants:
+                    - "DAMAGE_ALL 7"
+                
+            9:
+                Material: REDSTONE_BLOCK
+                AbrirMenu: "Geral"
+                Nome: "&4&lVoltar... para algum lugar que nem você sabe aonde é..."
+    Especial:
+        Nome: "&b&l&k|||&f &aCréditos &b&l&k|||"
+        Tamanho: 9
+        Slots:
+            1:
+                Material: NETHER_STAR
+                Nome: "&aIsto é outro menu!"
+                Lore:
+                - "&7Com o &6PicoMoedas&7 você consegue criar vários menus para você possa"
+                - "&7organizar melhor os itens!"
+            2:
+                Material: WOOL
+                Meta: 1
+                Quantidade: 64
+                Nome: "&aLãs coloridas"
+                Grana: 5
+            9:
+                Material: REDSTONE_BLOCK
+                AbrirMenu: "Geral"
+                Nome: "&4&lVoltar... por favor, não me deixe sozinho aqui..."
