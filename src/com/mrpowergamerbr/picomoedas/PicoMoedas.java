@@ -1,5 +1,14 @@
 package com.mrpowergamerbr.picomoedas;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.mrpowergamerbr.picomoedas.commands.CoinCommand;
 import com.mrpowergamerbr.picomoedas.commands.EditarCoinsCommand;
@@ -35,7 +45,26 @@ public class PicoMoedas extends JavaPlugin implements Listener {
     public static final String info = "Se você quer o código-fonte do PicoMoedas, veja aqui! https://github.com/MrPowerGamerBR/PicoMoedas";
     
     public void onEnable() {
-        lojas.clear();
+        try(BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/saves.json"))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String everything = sb.toString();
+            
+            Type t = new TypeToken<ArrayList<MoedaWrapper>>() {}.getType();
+            balances = (ArrayList<MoedaWrapper>) gson.fromJson(everything, t);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            // e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         saveDefaultConfig();
 
@@ -192,6 +221,32 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 loja.items.put(slot - 1, new ItemWrapper(itemInfo, item));
             }
             lojas.add(loja);
+        }
+        
+        List<String> filosofia = Arrays.asList("Será que alguém está lendo isto? ...", "Eu espero que não...");
+        filosofia = Arrays.asList("Será que algum dia nós iremos ficar juntos? ...não, não estou falando com você, pessoa que está lendo o meu código-fonte.");
+        filosofia = Arrays.asList("Sei lá, eu acho que não... Mesmo que eu queria bastante que isto acontecesse...");
+        filosofia = Arrays.asList("Mas é assim a vida, isto que acontece com pessoas que demoram demais para obter coragem para realizar as coisas...");
+        filosofia = Arrays.asList("...");
+        filosofia = Arrays.asList("Mas isto não quer dizer que não tenha alguma chance, né?");
+        filosofia = Arrays.asList("...");
+        filosofia = Arrays.asList("<3");
+        
+        filosofia.clear();
+    }
+    
+    public void onDisable() {
+        String json = gson.toJson(balances);
+        
+        List<String> lines = Arrays.asList(json);
+        Path file = Paths.get(getDataFolder() + "/");
+        file.toFile().mkdirs();
+        try {
+            file.toFile().createNewFile();
+            Files.write(Paths.get(getDataFolder() + "/balances.json"), lines, Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 }
