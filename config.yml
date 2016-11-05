@@ -1,0 +1,8 @@
+LojaPadrão: Geral
+Lojas:
+    Geral:
+        Nome: "&6&lPicoMoedas"
+        Tamanho: 18
+        Slots:
+            1:
+                Material: DIAMOND_BLOCK
