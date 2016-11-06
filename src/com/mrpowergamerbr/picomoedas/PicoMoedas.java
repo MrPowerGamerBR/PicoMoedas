@@ -31,6 +31,7 @@ import com.google.gson.Gson;
 import com.mrpowergamerbr.picomoedas.commands.CoinCommand;
 import com.mrpowergamerbr.picomoedas.commands.EditarCoinsCommand;
 import com.mrpowergamerbr.picomoedas.commands.LojaGUICommand;
+import com.mrpowergamerbr.picomoedas.commands.PicoMoedasCommand;
 import com.mrpowergamerbr.picomoedas.listeners.InteractListener;
 import com.mrpowergamerbr.picomoedas.utils.AbstractCommand;
 import com.mrpowergamerbr.picomoedas.utils.ItemInfo;
@@ -96,14 +97,10 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 e.printStackTrace();
             }
         }
-
-        /* CoinCommand myCommand = new CoinCommand("coins", "/<command> [args]", "Descrição", aliases);
-        myCommand.register();
-        LojaGUICommand lojaGuiCommand = new LojaGUICommand("lojagui", "/<command> [args]", "Descrição");
-        lojaGuiCommand.register();
-
-        EditarCoinsCommand editarCoinsCommand = new EditarCoinsCommand("editarcoins", "/<command> [args]", "Descrição");
-        editarCoinsCommand.register(); */
+        
+        // Registrar comando de créditos
+        PicoMoedasCommand creditsCommand = new PicoMoedasCommand("picomoedas", "/<command> [args]", "Descrição");
+        creditsCommand.register();
         
         Set<String> lojasStr = getConfig().getConfigurationSection("Lojas").getKeys(false);
 
