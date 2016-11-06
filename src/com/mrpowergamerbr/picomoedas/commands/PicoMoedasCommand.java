@@ -18,6 +18,9 @@ public class PicoMoedasCommand extends AbstractCommand {
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        sender.sendMessage("§6§lPicoMoedas §8- §7Criado por §b§lMrPowerGamerBR");
+        sender.sendMessage("§bMrPowerGamerBR Website:§3 http://mrpowergamerbr.com");
+        sender.sendMessage("§4§lSparkly§b§lPower http://sparklypower.net");
         return true;
     }
 }
