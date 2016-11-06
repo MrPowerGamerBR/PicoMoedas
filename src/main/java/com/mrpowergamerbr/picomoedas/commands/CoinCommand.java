@@ -26,7 +26,7 @@ public class CoinCommand extends AbstractCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (CommandUtils.argExists(args, 1)) {
-            String moedas = ConfigValues.getFromConfigColorized(Type.SUAS_MOEDAS);
+            String moedas = ConfigValues.getFromConfigColorized(Type.MOEDAS_DO_PLAYER);
             moedas = moedas.replace("{@moedas}", String.valueOf(PicoMoedasAPI.getBalance(args[0]).getValue()));
             moedas = moedas.replace("{@artigo}", MeninaWrapper.getCorrectArtigo(args[0]));
             sender.sendMessage(moedas);

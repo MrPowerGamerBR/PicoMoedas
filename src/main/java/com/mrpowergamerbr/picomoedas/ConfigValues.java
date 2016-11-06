@@ -21,6 +21,7 @@ public class ConfigValues {
     public enum Type {
         DEFAULT_TO_OPEN("LojaPadrao"),
         SUAS_MOEDAS("Mensagens.SuasMoedas"),
+        MOEDAS_DO_PLAYER("Mensagens.MoedasDoPlayer"),
         SEM_MOEDAS_SUFICIENTES("Mensagens.SemMoedas"),
         CUSTO_NOME("Mensagens.Custo"),
         VOCE_ADICIONOU_OP("Mensagens.VoceAdicionouOP"),
