@@ -298,6 +298,14 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     }
                 }
 
+                if (canUseItemFlags) {
+                    // Caso esteja usando a 1.8+, é necessário esconder os atributos do item
+                    // Se não esconder, o Minecraft irá mostrar várias informações inúteis na
+                    // lore do item.
+                    SimpleItemStack simple18 = (SimpleItemStack) simple;
+                    simple18.getFlags().add(ItemFlag.HIDE_ATTRIBUTES);
+                }
+                
                 loja.items.put(slot - 1, new ItemWrapper(itemInfo, simple.toItemStack()));
             }
             lojas.add(loja);
