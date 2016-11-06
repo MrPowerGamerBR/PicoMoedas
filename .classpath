@@ -12,6 +12,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Leonardo/Documents/Minecraft Servers/1.7.10_Prison/paperspigot.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
