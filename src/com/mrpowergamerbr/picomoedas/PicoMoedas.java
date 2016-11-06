@@ -18,19 +18,13 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.mrpowergamerbr.picomoedas.commands.CoinCommand;
-import com.mrpowergamerbr.picomoedas.commands.EditarCoinsCommand;
-import com.mrpowergamerbr.picomoedas.commands.LojaGUICommand;
 import com.mrpowergamerbr.picomoedas.commands.PicoMoedasCommand;
 import com.mrpowergamerbr.picomoedas.listeners.InteractListener;
 import com.mrpowergamerbr.picomoedas.utils.AbstractCommand;
