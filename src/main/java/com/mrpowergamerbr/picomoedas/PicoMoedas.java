@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.Listener;
@@ -34,6 +33,7 @@ import com.mrpowergamerbr.picomoedas.utils.ItemWrapper;
 import com.mrpowergamerbr.picomoedas.utils.Loja;
 import com.mrpowergamerbr.picomoedas.utils.MoedaWrapper;
 import com.mrpowergamerbr.picomoedas.utils.SimpleItemStack;
+import com.mrpowergamerbr.picomoedas.utils.SimpleItemStack17;
 
 public class PicoMoedas extends JavaPlugin implements Listener {
     public ArrayList<MoedaWrapper> balances = new ArrayList<MoedaWrapper>();
@@ -115,13 +115,18 @@ public class PicoMoedas extends JavaPlugin implements Listener {
             loja.setSize(getConfig().getInt("Lojas." + lojaStr + ".Tamanho"));
             Set<String> slotsStr = getConfig().getConfigurationSection("Lojas." + lojaStr + ".Slots").getKeys(false);
 
-
             for (String slotStr : slotsStr) {
                 int slot = Integer.parseInt(slotStr);
                 String slotConf = "Lojas." + lojaStr + ".Slots." + slot + ".";
 
                 ItemInfo itemInfo = new ItemInfo();
-                SimpleItemStack simple = new SimpleItemStack();
+                SimpleItemStack17 simple;
+                
+                if (canUseItemFlags) {
+                    simple = new SimpleItemStack();
+                } else {
+                    simple = new SimpleItemStack17();
+                }
                 
                 if (getConfig().contains(slotConf + "Grana")) {
                     itemInfo.setSelling(true);
@@ -176,10 +181,11 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 }
 
                 if (canUseItemFlags && getConfig().contains(slotConf + "ItemFlags")) {
+                    SimpleItemStack simple18 = (SimpleItemStack) simple;
                     List<String> flags = getConfig().getStringList(slotConf + "ItemFlags");
 
                     for (String itemFlagStr : flags) {
-                        simple.getFlags().add(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
+                        simple18.getFlags().add(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
                     }
                 }
 
@@ -199,7 +205,13 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 // Tá, isto está ficando *meio* desorganizado...
                 if (getConfig().contains(slotConf + "ItemSeparado")) {
                     slotConf = "Lojas." + lojaStr + ".Slots." + slot + ".ItemSeparado.";
-                    SimpleItemStack subItem = new SimpleItemStack();
+                    SimpleItemStack17 subItem = new SimpleItemStack17();
+                    
+                    if (canUseItemFlags) {
+                        subItem = new SimpleItemStack();
+                    } else {
+                        subItem = new SimpleItemStack17();
+                    }
                     
                     subItem.setMaterial(Material.valueOf(getConfig().getString(slotConf + "Material")));
                     if (getConfig().contains(slotConf + "Meta")) {
@@ -229,10 +241,12 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     }
 
                     if (canUseItemFlags && getConfig().contains(slotConf + "ItemFlags")) {
+                        SimpleItemStack simple18 = (SimpleItemStack) simple;
+                        
                         List<String> flags = getConfig().getStringList(slotConf + "ItemFlags");
 
                         for (String itemFlagStr : flags) {
-                            subItem.getFlags().add(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
+                            simple18.getFlags().add(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
                         }
                     }
 
@@ -253,7 +267,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 if (itemInfo.getPrice() != 0) { 
                     simple.setName(simple.getName() + ConfigValues.getFromConfigColorized(ConfigValues.Type.CUSTO_NOME).replace("{@custo}", String.valueOf(itemInfo.getPrice())));
                 }
-                
+
                 loja.items.put(slot - 1, new ItemWrapper(itemInfo, simple.toItemStack()));
             }
             lojas.add(loja);

@@ -16,7 +16,7 @@ public class ItemInfo implements Serializable {
     boolean selling = false;
     boolean sellingItem = false;
     boolean closesGui = false;
-    SimpleItemStack toGive;
+    SimpleItemStack17 toGive;
     double price;
     String itemName;
     String openGUI;

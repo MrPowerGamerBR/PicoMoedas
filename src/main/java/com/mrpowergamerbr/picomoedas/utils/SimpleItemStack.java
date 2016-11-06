@@ -27,6 +27,7 @@ public class SimpleItemStack extends SimpleItemStack17 {
     List<ItemFlag> flags = new ArrayList<ItemFlag>();
     HashMap<String, Integer> enchants = new HashMap<>();
     
+    @Override
     public ItemStack toItemStack() {
         ItemStack item = new ItemStack(material, quantidade, meta);
 
