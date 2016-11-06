@@ -26,6 +26,7 @@ Lojas:
         Slots:
             4:
                 Material: DIAMOND_SWORD
+                VendeItem: true
                 Grana: 355
                 Nome: "&a&l&k|||&f &b&lMrPowerGamerBR &a&l&k|||"
                 Lore:
@@ -36,6 +37,7 @@ Lojas:
                 - "HIDE_ENCHANTS"
             5:
                 Material: DIAMOND_SWORD
+                VendeItem: true
                 Grana: 255
                 Nome: "&a&lEspada do ENEM"
                 Lore:
@@ -46,6 +48,7 @@ Lojas:
             6:
                 Material: STONE_SWORD
                 Grana: 120
+                VendeItem: true
                 Nome: "&c&lEspada"
                 Lore:
                 - "&7You’re so indecisive of what I’m saying"
@@ -80,6 +83,14 @@ Lojas:
                 Quantidade: 64
                 Nome: "&aLãs coloridas"
                 Grana: 5
+                VendeItem: true
+            3:
+                Material: DIAMOND
+                Quantidade: 1
+                Nome: "&bFalar seu nome no broadcast!"
+                Grana: 50
+                ExecutarComandoConsole:
+                - "broadcast {player} pagou 50 moedas para aparecer aqui!"
             9:
                 Material: REDSTONE_BLOCK
                 AbrirMenu: "Geral"

@@ -101,7 +101,15 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     itemInfo.setSelling(true);
                     itemInfo.setPrice(getConfig().getDouble(slotConf + "Grana"));
                 }
+                
+                if (getConfig().contains(slotConf + "VendeItem")) {
+                    itemInfo.setSellingItem(getConfig().getBoolean(slotConf + "VendeItem"));
+                }
 
+                if (getConfig().contains(slotConf + "ExecutarComandoConsole")) {
+                    itemInfo.setConsoleCommands(getConfig().getStringList(slotConf + "ExecutarComandoConsole"));
+                }
+                
                 if (getConfig().contains(slotConf + "AbrirMenu")) {
                     itemInfo.setOpenGUI(getConfig().getString(slotConf + "AbrirMenu"));
                 }

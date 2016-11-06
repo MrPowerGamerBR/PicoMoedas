@@ -26,7 +26,7 @@ public class SimpleItemStack {
     List<String> lore = new ArrayList<String>();
     List<ItemFlag> flags = new ArrayList<ItemFlag>();
     HashMap<String, Integer> enchants = new HashMap<>();
-
+    
     public ItemStack toItemStack() {
         ItemStack item = new ItemStack(material, quantidade, meta);
 

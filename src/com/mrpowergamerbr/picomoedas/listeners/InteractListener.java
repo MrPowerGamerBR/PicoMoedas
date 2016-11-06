@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.mrpowergamerbr.picomoedas.ConfigValues;
 import com.mrpowergamerbr.picomoedas.PicoMoedas;
@@ -49,19 +50,32 @@ public class InteractListener implements Listener {
                                 return;
                             }
 
-                            
+
                             if (itemInfo.isSelling()) {
                                 if (PicoMoedasAPI.getBalance(p).getValue() >= itemInfo.getPrice()) {
                                     if (p.getInventory().firstEmpty() == -1) {
                                         return;
                                     }
-                                    
+
                                     PicoMoedasAPI.editBalance(p, -itemInfo.getPrice());
-                                    if (itemInfo.getToGive() != null) {
-                                        p.getInventory().addItem(itemInfo.getToGive().toItemStack());
-                                    } else {
-                                        p.getInventory().addItem(e.getCurrentItem());
+
+                                    if (itemInfo.isSellingItem()) {
+                                        if (itemInfo.getToGive() != null) {
+                                            p.getInventory().addItem(itemInfo.getToGive().toItemStack());
+                                        } else {
+                                            p.getInventory().addItem(e.getCurrentItem());
+                                        }
                                     }
+
+                                    new BukkitRunnable() {
+                                        public void run() {
+                                            for (String command : itemInfo.getConsoleCommands()) {
+                                                command = command.replace("{@player}", p.getName());
+                                                command = command.replace("{@displayName}", p.getDisplayName());
+                                                Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), command);
+                                            }
+                                        }
+                                    }.runTask(m);
                                 } else {
                                     String semGrana = ConfigValues.getFromConfig(Type.SEM_MOEDAS_SUFICIENTES);
                                     semGrana = ChatColor.translateAlternateColorCodes('&', semGrana);
