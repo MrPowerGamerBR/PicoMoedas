@@ -239,6 +239,8 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     itemInfo.setToGive(subItem);
                 }
                 
+                simple.setName(simple.getName() + ConfigValues.getFromConfigColorized(ConfigValues.Type.CUSTO_NOME).replace("{@custo}", String.valueOf(itemInfo.getPrice())));
+                
                 loja.items.put(slot - 1, new ItemWrapper(itemInfo, simple.toItemStack()));
             }
             lojas.add(loja);

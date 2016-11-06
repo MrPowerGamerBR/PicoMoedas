@@ -19,6 +19,7 @@ Comandos:
         Class: LojaGUICommand
         Comando: "lojagui"
 Mensagens:
+    Custo: " &8[&a&l{@custo}&8]" # Isto aparece ao lado do nome do item na GUI em itens que custam grana
     SuasMoedas: "Moedas: {@moedas}"
     SemMoedas: "Você não tem moedas suficientes!"
 LojaPadrão: "Geral" # Quando alguém usar "/lojagui", ele irá abrir por padrão o menu "Geral"
