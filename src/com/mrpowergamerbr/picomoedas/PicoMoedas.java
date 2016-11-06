@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -223,6 +224,23 @@ public class PicoMoedas extends JavaPlugin implements Listener {
             lojas.add(loja);
         }
         
+        new BukkitRunnable() {
+            public void run() {
+                String json = gson.toJson(balances);
+                
+                List<String> lines = Arrays.asList(json);
+                Path file = Paths.get(getDataFolder() + "/");
+                file.toFile().mkdirs();
+                try {
+                    file.toFile().createNewFile();
+                    Files.write(Paths.get(getDataFolder() + "/balances.json"), lines, Charset.forName("UTF-8"));
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }.runTaskTimerAsynchronously(this, 18000L, 18000L);
+        
         List<String> filosofia = Arrays.asList("Será que alguém está lendo isto? ...", "Eu espero que não...");
         filosofia = Arrays.asList("Será que algum dia nós iremos ficar juntos? ...não, não estou falando com você, pessoa que está lendo o meu código-fonte.");
         filosofia = Arrays.asList("Sei lá, eu acho que não... Mesmo que eu queria bastante que isto acontecesse...");
@@ -232,7 +250,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
         filosofia = Arrays.asList("...");
         filosofia = Arrays.asList("<3");
         
-        filosofia.clear();
+        filosofia.size();
     }
     
     public void onDisable() {
