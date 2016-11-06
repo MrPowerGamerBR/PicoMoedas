@@ -1,4 +1,23 @@
 # PicoMoedas - Criado por MrPowerGamerBR
+Comandos:
+    VerMoedas:
+        # Nem pense em tocar nesse "Class", se você alterar, vai dar problema.
+        Class: CoinCommand
+        Comando: "coins"
+        Aliases:
+        - "moedas"
+        - "cash"
+        - "coin"
+    EditarCoins:
+        Class: EditarCoinsCommand
+        Comando: "editarcoins"
+        Aliases:
+        - "editarmoedas"
+        - "editarcash"
+        - "editarcoin"
+    LojaGUI:
+        Class: LojaGUICommand
+        Comando: "lojagui"
 Mensagens:
     SuasMoedas: "Moedas: {@moedas}"
     SemMoedas: "Você não tem moedas suficientes!"

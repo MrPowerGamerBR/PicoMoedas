@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -31,6 +32,7 @@ import com.mrpowergamerbr.picomoedas.commands.CoinCommand;
 import com.mrpowergamerbr.picomoedas.commands.EditarCoinsCommand;
 import com.mrpowergamerbr.picomoedas.commands.LojaGUICommand;
 import com.mrpowergamerbr.picomoedas.listeners.InteractListener;
+import com.mrpowergamerbr.picomoedas.utils.AbstractCommand;
 import com.mrpowergamerbr.picomoedas.utils.ItemInfo;
 import com.mrpowergamerbr.picomoedas.utils.ItemWrapper;
 import com.mrpowergamerbr.picomoedas.utils.Loja;
@@ -71,16 +73,37 @@ public class PicoMoedas extends JavaPlugin implements Listener {
 
         new PicoMoedasAPI(this);
         new InteractListener(this);
-        List<String> aliases;
         
-        aliases = Arrays.asList("moedas", "cash", "coin");
-        CoinCommand myCommand = new CoinCommand("coins", "/<command> [args]", "Descrição", aliases);
+        Set<String> commandsStr = getConfig().getConfigurationSection("Comandos").getKeys(false);
+        
+        for (String commandStr : commandsStr) {
+            String confStr = "Comandos." + commandStr + ".";
+            String clazzStr = getConfig().getString(confStr + "Class");
+            String cmdName = getConfig().getString(confStr + "Comando");
+            List<String> aliases = new ArrayList<String>();
+            
+            if (getConfig().contains(confStr + "Aliases")) {
+                aliases = getConfig().getStringList(confStr + "Aliases");
+            }
+            
+            
+            try {
+                Class<?> c = Class.forName("com.mrpowergamerbr.picomoedas.commands." + clazzStr);
+                AbstractCommand t = (AbstractCommand) c.getDeclaredConstructor(String.class, String.class, String.class, List.class).newInstance(cmdName, "/<command> [args]", "Descrição", aliases);
+                t.register();
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        /* CoinCommand myCommand = new CoinCommand("coins", "/<command> [args]", "Descrição", aliases);
         myCommand.register();
         LojaGUICommand lojaGuiCommand = new LojaGUICommand("lojagui", "/<command> [args]", "Descrição");
         lojaGuiCommand.register();
 
         EditarCoinsCommand editarCoinsCommand = new EditarCoinsCommand("editarcoins", "/<command> [args]", "Descrição");
-        editarCoinsCommand.register();
+        editarCoinsCommand.register(); */
         
         Set<String> lojasStr = getConfig().getConfigurationSection("Lojas").getKeys(false);
 
