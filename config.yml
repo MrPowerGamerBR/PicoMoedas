@@ -110,7 +110,7 @@ Lojas:
                 Nome: "&bFalar seu nome no broadcast!"
                 Grana: 50
                 ExecutarComandoConsole:
-                - "broadcast {player} pagou 50 moedas para aparecer aqui!"
+                - "broadcast {@player} pagou 50 moedas para aparecer aqui!"
             9:
                 Material: REDSTONE_BLOCK
                 AbrirMenu: "Geral"
