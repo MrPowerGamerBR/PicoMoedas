@@ -23,6 +23,7 @@ import org.bukkit.Material;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -39,6 +40,8 @@ import com.mrpowergamerbr.picomoedas.utils.SimpleItemStack;
 import com.mrpowergamerbr.picomoedas.utils.SimpleItemStack17;
 import com.mrpowergamerbr.picomoedas.utils.attributes.AttributeStorage;
 
+import net.milkbowl.vault.economy.Economy;
+
 public class PicoMoedas extends JavaPlugin implements Listener {
     public ArrayList<MoedaWrapper> balances = new ArrayList<MoedaWrapper>();
     public ArrayList<Loja> lojas = new ArrayList<Loja>();
@@ -50,7 +53,13 @@ public class PicoMoedas extends JavaPlugin implements Listener {
     public boolean canUseItemFlags = false;
     public boolean canUseAttrStorage = false;
 
+    public Economy econ = null;
+    
     public void onEnable() {
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            setupEconomy();
+        }
+        
         // Verificar se a versão do servidor tem suporte a ItemFlags (1.8+)
         try {
             ItemFlag.HIDE_ATTRIBUTES.getClass();
@@ -353,5 +362,17 @@ public class PicoMoedas extends JavaPlugin implements Listener {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        econ = rsp.getProvider();
+        return econ != null;
     }
 }

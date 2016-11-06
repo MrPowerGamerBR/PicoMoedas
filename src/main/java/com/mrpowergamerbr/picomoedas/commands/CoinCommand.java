@@ -2,7 +2,6 @@ package com.mrpowergamerbr.picomoedas.commands;
 
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -25,8 +24,7 @@ public class CoinCommand extends AbstractCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
-        String moedas = ConfigValues.getFromConfig(Type.SUAS_MOEDAS);
-        moedas = ChatColor.translateAlternateColorCodes('&', moedas);
+        String moedas = ConfigValues.getFromConfigColorized(Type.SUAS_MOEDAS);
         moedas = moedas.replace("{@moedas}", String.valueOf(PicoMoedasAPI.getBalance(p).getValue()));
         sender.sendMessage(moedas);
         return true;

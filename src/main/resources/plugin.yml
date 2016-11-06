@@ -1,3 +1,4 @@
 name: PicoMoedas
 main: com.mrpowergamerbr.picomoedas.PicoMoedas
 version: 1.0.4
+softdepend: ["Vault"]

@@ -20,32 +20,43 @@ public class PicoMoedasAPI {
     public static MoedaWrapper getBalance(String name) {
         return getOrCreateBalance(name);
     }
-    
+
     private static MoedaWrapper getOrCreateBalance(Player p) {
         return getOrCreateBalance(p.getName());
     }
 
     public static void editBalance(Player p, double newValue) {
-        MoedaWrapper wrapper = getOrCreateBalance(p);
-        getOrCreateBalance(p).setValue(wrapper.getValue() + newValue);
-    }
-    
-    private static MoedaWrapper getOrCreateBalance(String name) {
-        for (MoedaWrapper wrapper : m.balances) {
-            if (wrapper.getName().equals(name)) {
-                return wrapper;
-            }
+        if ((boolean) ConfigValues.getFromConfig(Type.USE_VAULT) && m.econ != null) {
+            // Utilizar Vault caso o "UsarEconomiaDoVault" seja true
+            m.econ.depositPlayer(p, newValue);
+        } else {
+            MoedaWrapper wrapper = getOrCreateBalance(p);
+            getOrCreateBalance(p).setValue(wrapper.getValue() + newValue);
         }
+    }
 
-        MoedaWrapper wrapper = new MoedaWrapper(name, 0);
+    private static MoedaWrapper getOrCreateBalance(String name) {
+        if ((boolean) ConfigValues.getFromConfig(Type.USE_VAULT) && m.econ != null) {
+            // Utilizar Vault caso o "UsarEconomiaDoVault" seja true
+            MoedaWrapper wrapper = new MoedaWrapper(name, m.econ.getBalance(name));
+            return wrapper;
+        } else {
+            for (MoedaWrapper wrapper : m.balances) {
+                if (wrapper.getName().equals(name)) {
+                    return wrapper;
+                }
+            }
 
-        m.balances.add(wrapper);
+            MoedaWrapper wrapper = new MoedaWrapper(name, 0);
 
-        return wrapper;
+            m.balances.add(wrapper);
+
+            return wrapper;
+        }
     }
 
     public static void abrirGUI(Player p) {
-        abrirGUI(p, ConfigValues.getFromConfig(Type.DEFAULT_TO_OPEN));
+        abrirGUI(p, (String) ConfigValues.getFromConfig(Type.DEFAULT_TO_OPEN));
     }
 
     public static void abrirGUI(Player p, String internalName) {

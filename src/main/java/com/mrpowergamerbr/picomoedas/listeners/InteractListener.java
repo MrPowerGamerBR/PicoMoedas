@@ -1,7 +1,6 @@
 package com.mrpowergamerbr.picomoedas.listeners;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -107,8 +106,7 @@ public class InteractListener implements Listener {
                                     }
                                 }.runTask(m);
                             } else {
-                                String semGrana = ConfigValues.getFromConfig(Type.SEM_MOEDAS_SUFICIENTES);
-                                semGrana = ChatColor.translateAlternateColorCodes('&', semGrana);
+                                String semGrana = ConfigValues.getFromConfigColorized(Type.SEM_MOEDAS_SUFICIENTES);
                                 p.sendMessage(semGrana);
                             }
                         }
