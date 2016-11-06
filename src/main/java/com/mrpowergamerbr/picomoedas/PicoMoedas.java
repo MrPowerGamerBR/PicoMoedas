@@ -46,10 +46,10 @@ public class PicoMoedas extends JavaPlugin implements Listener {
     public static final UUID ID = UUID.fromString("990648ce-a988-4191-9057-626650ae4267");
     public static final Gson gson = new Gson();
     public static final String info = "Se você quer o código-fonte do PicoMoedas, veja aqui! https://github.com/MrPowerGamerBR/PicoMoedas";
-    
+
     public boolean canUseItemFlags = false;
     public boolean canUseAttrStorage = false;
-    
+
     public void onEnable() {
         // Verificar se a versão do servidor tem suporte a ItemFlags (1.8+)
         try {
@@ -58,7 +58,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
         } catch (Error e) {
             // Se der erro, quer dizer que a classe não foi encontrada, então nós não iremos usar Item Flags no PicoMoedas
         }
-        
+
         // Verificar se a versão do servidor tem suporte a atributos (1.7+)
         try {
             ItemStack item = new ItemStack(Material.STONE);
@@ -71,7 +71,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
             Bukkit.getLogger().log(Level.WARNING, "[PicoMoedas] Enquanto o PicoMoedas irá funcionar, ele usará uma gambiarra");
             Bukkit.getLogger().log(Level.WARNING, "[PicoMoedas] que poderá afetar o seu servidor!");
         }
-        
+
         try(BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/saves.json"))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
@@ -82,7 +82,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 line = br.readLine();
             }
             String everything = sb.toString();
-            
+
             Type t = new TypeToken<ArrayList<MoedaWrapper>>() {}.getType();
             balances = (ArrayList<MoedaWrapper>) gson.fromJson(everything, t);
         } catch (FileNotFoundException e) {
@@ -97,24 +97,24 @@ public class PicoMoedas extends JavaPlugin implements Listener {
 
         new PicoMoedasAPI(this);
         new InteractListener(this);
-        
+
         Set<String> commandsStr = getConfig().getConfigurationSection("Comandos").getKeys(false);
-        
+
         for (String commandStr : commandsStr) {
             String confStr = "Comandos." + commandStr + ".";
             String clazzStr = getConfig().getString(confStr + "Class");
             String cmdName = getConfig().getString(confStr + "Comando");
             List<String> aliases = new ArrayList<String>();
-            
+
             if (getConfig().contains(confStr + "Aliases")) {
                 aliases = getConfig().getStringList(confStr + "Aliases");
             }
-            
+
             String comoUsa = "/<command> [args]";
             if (getConfig().contains(confStr + "ComoUsa")) {
                 comoUsa = getConfig().getString(confStr + "ComoUsa");
             }
-            
+
             try {
                 Class<?> c = Class.forName("com.mrpowergamerbr.picomoedas.commands." + clazzStr);
                 AbstractCommand t = (AbstractCommand) c.getDeclaredConstructor(String.class, String.class, String.class, List.class, String.class).newInstance(cmdName, "/<command> [args]", "Descrição", aliases, comoUsa);
@@ -124,11 +124,11 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 e.printStackTrace();
             }
         }
-        
+
         // Registrar comando de créditos
         PicoMoedasCommand creditsCommand = new PicoMoedasCommand("picomoedas", "/<command> [args]", "Descrição");
         creditsCommand.register();
-        
+
         Set<String> lojasStr = getConfig().getConfigurationSection("Lojas").getKeys(false);
 
         for (String lojaStr : lojasStr) {
@@ -143,18 +143,18 @@ public class PicoMoedas extends JavaPlugin implements Listener {
 
                 ItemInfo itemInfo = new ItemInfo();
                 SimpleItemStack17 simple;
-                
+
                 if (canUseItemFlags) {
                     simple = new SimpleItemStack();
                 } else {
                     simple = new SimpleItemStack17();
                 }
-                
+
                 if (getConfig().contains(slotConf + "Grana")) {
                     itemInfo.setSelling(true);
                     itemInfo.setPrice(getConfig().getDouble(slotConf + "Grana"));
                 }
-                
+
                 if (getConfig().contains(slotConf + "VendeItem")) {
                     itemInfo.setSellingItem(getConfig().getBoolean(slotConf + "VendeItem"));
                 }
@@ -162,24 +162,24 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 if (getConfig().contains(slotConf + "ExecutarComandoConsole")) {
                     itemInfo.setConsoleCommands(getConfig().getStringList(slotConf + "ExecutarComandoConsole"));
                 }
-                
+
                 if (getConfig().contains(slotConf + "AbrirMenu")) {
                     itemInfo.setOpenGUI(getConfig().getString(slotConf + "AbrirMenu"));
                 }
-                
+
 
                 if (getConfig().contains(slotConf + "FecharMenu")) {
                     itemInfo.setClosesGui(getConfig().getBoolean(slotConf + "FecharMenu"));
                 }
 
                 int quantidade = 1;
-                
+
                 if (getConfig().contains(slotConf + "Quantidade")) {
                     quantidade = getConfig().getInt(slotConf + "Quantidade");
                 }
-                
+
                 byte metadata = 0;
-                
+
                 if (getConfig().contains(slotConf + "Meta")) {
                     metadata = ((byte) getConfig().getInt(slotConf + "Meta"));
                 }
@@ -187,7 +187,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 simple.setMaterial(Material.valueOf(getConfig().getString(slotConf + "Material")));
                 simple.setQuantidade(quantidade);
                 simple.setMeta(metadata);
-                
+
                 if (getConfig().contains(slotConf + "Nome")) {
                     simple.setName(ChatColor.translateAlternateColorCodes('&', getConfig().getString(slotConf + "Nome")));
                 }
@@ -223,31 +223,31 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 }
 
                 itemInfo.setToGive(simple);
-                
+
                 // Tá, isto está ficando *meio* desorganizado...
                 if (getConfig().contains(slotConf + "ItemSeparado")) {
                     slotConf = "Lojas." + lojaStr + ".Slots." + slot + ".ItemSeparado.";
                     SimpleItemStack17 subItem = new SimpleItemStack17();
-                    
+
                     if (canUseItemFlags) {
                         subItem = new SimpleItemStack();
                     } else {
                         subItem = new SimpleItemStack17();
                     }
-                    
+
                     subItem.setMaterial(Material.valueOf(getConfig().getString(slotConf + "Material")));
                     if (getConfig().contains(slotConf + "Meta")) {
                         subItem.setMeta((byte) getConfig().getInt(slotConf + "Meta"));
                     }
-                    
+
                     quantidade = 1;
-                    
+
                     if (getConfig().contains(slotConf + "Quantidade")) {
                         quantidade = getConfig().getInt(slotConf + "Quantidade");
                     }
-                    
+
                     subItem.setQuantidade(quantidade);
-                    
+
                     if (getConfig().contains(slotConf + "Nome")) {
                         subItem.setName(ChatColor.translateAlternateColorCodes('&', getConfig().getString(slotConf + "Nome")));
                     }
@@ -264,7 +264,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
 
                     if (canUseItemFlags && getConfig().contains(slotConf + "ItemFlags")) {
                         SimpleItemStack simple18 = (SimpleItemStack) simple;
-                        
+
                         List<String> flags = getConfig().getStringList(slotConf + "ItemFlags");
 
                         for (String itemFlagStr : flags) {
@@ -282,23 +282,25 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                             subItem.getEnchants().put(split[0], Integer.parseInt(split[1]));
                         }
                     }
-                    
+
                     itemInfo.setToGive(subItem);
                 }
-                
-                if (itemInfo.getPrice() != 0) { 
-                    simple.setName(simple.getName() + ConfigValues.getFromConfigColorized(ConfigValues.Type.CUSTO_NOME).replace("{@custo}", String.valueOf(itemInfo.getPrice())));
+
+                if (getConfig().contains(slotConf + "MostrarPreco") && getConfig().getBoolean(slotConf + "MostrarPreco")) {
+                    if (itemInfo.getPrice() != 0) { 
+                        simple.setName(simple.getName() + ConfigValues.getFromConfigColorized(ConfigValues.Type.CUSTO_NOME).replace("{@custo}", String.valueOf(itemInfo.getPrice())));
+                    }
                 }
 
                 loja.items.put(slot - 1, new ItemWrapper(itemInfo, simple.toItemStack()));
             }
             lojas.add(loja);
         }
-        
+
         new BukkitRunnable() {
             public void run() {
                 String json = gson.toJson(balances);
-                
+
                 List<String> lines = Arrays.asList(json);
                 Path file = Paths.get(getDataFolder() + "/");
                 file.toFile().mkdirs();
@@ -311,7 +313,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 }
             }
         }.runTaskTimerAsynchronously(this, 18000L, 18000L);
-        
+
         List<String> filosofia = Arrays.asList("Será que alguém está lendo isto? ...", "Eu espero que não...");
         filosofia = Arrays.asList("Será que algum dia nós iremos ficar juntos? ...não, não estou falando com você, pessoa que está lendo o meu código-fonte.");
         filosofia = Arrays.asList("Sei lá, eu acho que não... Mesmo que eu queria bastante que isto acontecesse...");
@@ -320,13 +322,13 @@ public class PicoMoedas extends JavaPlugin implements Listener {
         filosofia = Arrays.asList("Mas isto não quer dizer que não tenha alguma chance, né?");
         filosofia = Arrays.asList("...");
         filosofia = Arrays.asList("<3");
-        
+
         filosofia.size();
     }
-    
+
     public void onDisable() {
         String json = gson.toJson(balances);
-        
+
         List<String> lines = Arrays.asList(json);
         Path file = Paths.get(getDataFolder() + "/");
         file.toFile().mkdirs();
