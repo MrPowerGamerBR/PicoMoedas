@@ -1,5 +1,6 @@
 package com.mrpowergamerbr.picomoedas;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import com.mrpowergamerbr.picomoedas.ConfigValues.Type;
@@ -28,7 +29,12 @@ public class PicoMoedasAPI {
     public static void editBalance(Player p, double newValue) {
         if (ConfigValues.getFromConfigBool(Type.USE_VAULT) && m.econ != null) {
             // Utilizar Vault caso o "UsarEconomiaDoVault" seja true
-            m.econ.depositPlayer(p, newValue);
+            if (0 > newValue) {
+                newValue = -newValue;
+                m.econ.withdrawPlayer(p, newValue);
+            } else {
+                m.econ.depositPlayer(p, newValue);
+            }
         } else {
             MoedaWrapper wrapper = getOrCreateBalance(p);
             getOrCreateBalance(p).setValue(wrapper.getValue() + newValue);
