@@ -26,7 +26,7 @@ public class PicoMoedasAPI {
     }
 
     public static void editBalance(Player p, double newValue) {
-        if ((boolean) ConfigValues.getFromConfig(Type.USE_VAULT) && m.econ != null) {
+        if (ConfigValues.getFromConfigBool(Type.USE_VAULT) && m.econ != null) {
             // Utilizar Vault caso o "UsarEconomiaDoVault" seja true
             m.econ.depositPlayer(p, newValue);
         } else {
@@ -36,7 +36,7 @@ public class PicoMoedasAPI {
     }
 
     private static MoedaWrapper getOrCreateBalance(String name) {
-        if ((boolean) ConfigValues.getFromConfig(Type.USE_VAULT) && m.econ != null) {
+        if ((boolean) ConfigValues.getFromConfigBool(Type.USE_VAULT) && m.econ != null) {
             // Utilizar Vault caso o "UsarEconomiaDoVault" seja true
             MoedaWrapper wrapper = new MoedaWrapper(name, m.econ.getBalance(name));
             return wrapper;

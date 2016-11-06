@@ -3,11 +3,16 @@ package com.mrpowergamerbr.picomoedas;
 import org.bukkit.ChatColor;
 
 public class ConfigValues {
-    public static Object getFromConfig(Type type) {
+    public static String getFromConfig(Type type) {
         String onConfig = type.name;
         return PicoMoedasAPI.m.getConfig().getString(onConfig);
     }
 
+    public static boolean getFromConfigBool(Type type) {
+        String onConfig = type.name;
+        return PicoMoedasAPI.m.getConfig().getBoolean(onConfig);
+    }
+    
     public static String getFromConfigColorized(Type type) {
         String onConfig = type.name;
         return ChatColor.translateAlternateColorCodes('&', PicoMoedasAPI.m.getConfig().getString(onConfig));
