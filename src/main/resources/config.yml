@@ -72,6 +72,7 @@ Lojas:
                 Material: STONE_SWORD
                 Grana: 120
                 VendeItem: true
+                MostrarPreco: false
                 Nome: "&c&lEspada"
                 Lore:
                 - "&7You’re so indecisive of what I’m saying"

@@ -286,7 +286,13 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     itemInfo.setToGive(subItem);
                 }
 
-                if (getConfig().contains(slotConf + "MostrarPreco") && getConfig().getBoolean(slotConf + "MostrarPreco")) {
+                boolean showPreco = true;
+                
+                if (getConfig().contains(slotConf + "MostrarPreco")) {
+                    showPreco = getConfig().getBoolean(slotConf + "MostrarPreco");
+                }
+                
+                if (showPreco) {
                     if (itemInfo.getPrice() != 0) { 
                         simple.setName(simple.getName() + ConfigValues.getFromConfigColorized(ConfigValues.Type.CUSTO_NOME).replace("{@custo}", String.valueOf(itemInfo.getPrice())));
                     }
