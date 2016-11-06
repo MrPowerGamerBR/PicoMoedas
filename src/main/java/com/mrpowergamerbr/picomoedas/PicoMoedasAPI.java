@@ -7,7 +7,7 @@ import com.mrpowergamerbr.picomoedas.utils.Loja;
 import com.mrpowergamerbr.picomoedas.utils.MoedaWrapper;
 
 public class PicoMoedasAPI {
-    static PicoMoedas m;
+    public static PicoMoedas m;
 
     public PicoMoedasAPI(PicoMoedas m) {
         PicoMoedasAPI.m = m;    

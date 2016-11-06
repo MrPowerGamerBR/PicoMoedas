@@ -15,11 +15,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -34,6 +37,7 @@ import com.mrpowergamerbr.picomoedas.utils.Loja;
 import com.mrpowergamerbr.picomoedas.utils.MoedaWrapper;
 import com.mrpowergamerbr.picomoedas.utils.SimpleItemStack;
 import com.mrpowergamerbr.picomoedas.utils.SimpleItemStack17;
+import com.mrpowergamerbr.picomoedas.utils.attributes.AttributeStorage;
 
 public class PicoMoedas extends JavaPlugin implements Listener {
     public ArrayList<MoedaWrapper> balances = new ArrayList<MoedaWrapper>();
@@ -43,7 +47,8 @@ public class PicoMoedas extends JavaPlugin implements Listener {
     public static final Gson gson = new Gson();
     public static final String info = "Se você quer o código-fonte do PicoMoedas, veja aqui! https://github.com/MrPowerGamerBR/PicoMoedas";
     
-    boolean canUseItemFlags = false;
+    public boolean canUseItemFlags = false;
+    public boolean canUseAttrStorage = false;
     
     public void onEnable() {
         // Verificar se a versão do servidor tem suporte a ItemFlags (1.8+)
@@ -52,6 +57,19 @@ public class PicoMoedas extends JavaPlugin implements Listener {
             canUseItemFlags = true;
         } catch (Error e) {
             // Se der erro, quer dizer que a classe não foi encontrada, então nós não iremos usar Item Flags no PicoMoedas
+        }
+        
+        // Verificar se a versão do servidor tem suporte a atributos (1.7+)
+        try {
+            ItemStack item = new ItemStack(Material.STONE);
+            AttributeStorage attr = AttributeStorage.newTarget(item, ID);
+            attr.setData("Thais");
+            canUseAttrStorage = true;
+        } catch (Exception e) {
+            // Se der exception, quer dizer que o servidor não suporta atributos no item... Hora da super gambiarra...
+            Bukkit.getLogger().log(Level.WARNING, "[PicoMoedas] A versão do seu servidor não suporta atributos nos itens!");
+            Bukkit.getLogger().log(Level.WARNING, "[PicoMoedas] Enquanto o PicoMoedas irá funcionar, ele usará uma gambiarra");
+            Bukkit.getLogger().log(Level.WARNING, "[PicoMoedas] que poderá afetar o seu servidor!");
         }
         
         try(BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/saves.json"))) {
