@@ -2,6 +2,7 @@ package com.mrpowergamerbr.picomoedas.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -45,7 +46,7 @@ public class InteractListener implements Listener {
                     Player p = (Player) e.getWhoClicked();
                     ItemInfo itemInfo = null;
 
-                    if (e.getCurrentItem() != null) {
+                    if (e.getCurrentItem() != null && e.getCurrentItem().getType() != Material.AIR) {
                         if (!m.canUseAttrStorage) {
                             // Gambiarras para que pessoas possam usar o PicoMoedas na 1.5.idadedaspedras
                             // Tenho certeza que isto poderá causar algum bug de dupe, mas eu não ligo.
