@@ -18,7 +18,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class SimpleItemStack {
+public class SimpleItemStack extends SimpleItemStack17 {
     String name;
     byte meta;
     int quantidade = 1;

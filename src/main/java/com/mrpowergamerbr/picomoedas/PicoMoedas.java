@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.Listener;
@@ -23,8 +24,8 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mrpowergamerbr.picomoedas.commands.PicoMoedasCommand;
 import com.mrpowergamerbr.picomoedas.listeners.InteractListener;
 import com.mrpowergamerbr.picomoedas.utils.AbstractCommand;
@@ -42,7 +43,17 @@ public class PicoMoedas extends JavaPlugin implements Listener {
     public static final Gson gson = new Gson();
     public static final String info = "Se você quer o código-fonte do PicoMoedas, veja aqui! https://github.com/MrPowerGamerBR/PicoMoedas";
     
+    boolean canUseItemFlags = false;
+    
     public void onEnable() {
+        // Verificar se a versão do servidor tem suporte a ItemFlags (1.8+)
+        try {
+            ItemFlag.HIDE_ATTRIBUTES.getClass();
+            canUseItemFlags = true;
+        } catch (Error e) {
+            // Se der erro, quer dizer que a classe não foi encontrada, então nós não iremos usar Item Flags no PicoMoedas
+        }
+        
         try(BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/saves.json"))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
@@ -164,7 +175,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     simple.setLore(coloredLore);
                 }
 
-                if (getConfig().contains(slotConf + "ItemFlags")) {
+                if (canUseItemFlags && getConfig().contains(slotConf + "ItemFlags")) {
                     List<String> flags = getConfig().getStringList(slotConf + "ItemFlags");
 
                     for (String itemFlagStr : flags) {
@@ -217,7 +228,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                         subItem.setLore(coloredLore);
                     }
 
-                    if (getConfig().contains(slotConf + "ItemFlags")) {
+                    if (canUseItemFlags && getConfig().contains(slotConf + "ItemFlags")) {
                         List<String> flags = getConfig().getStringList(slotConf + "ItemFlags");
 
                         for (String itemFlagStr : flags) {
