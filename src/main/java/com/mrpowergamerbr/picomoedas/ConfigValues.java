@@ -14,7 +14,7 @@ public class ConfigValues {
     }
     
     public enum Type {
-        DEFAULT_TO_OPEN("LojaPadrão"),
+        DEFAULT_TO_OPEN("LojaPadrao"),
         SUAS_MOEDAS("Mensagens.SuasMoedas"),
         SEM_MOEDAS_SUFICIENTES("Mensagens.SemMoedas"),
         CUSTO_NOME("Mensagens.Custo");

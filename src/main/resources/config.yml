@@ -22,7 +22,7 @@ Mensagens:
     Custo: " &8[&a&l{@custo}&8]" # Isto aparece ao lado do nome do item na GUI em itens que custam grana
     SuasMoedas: "Moedas: {@moedas}"
     SemMoedas: "Você não tem moedas suficientes!"
-LojaPadrão: "Geral" # Quando alguém usar "/lojagui", ele irá abrir por padrão o menu "Geral"
+LojaPadrao: "Geral" # Quando alguém usar "/lojagui", ele irá abrir por padrão o menu "Geral"
 Lojas:
     Geral:
         Nome: "&6&lPicoMoedas" # Nome da GUI
