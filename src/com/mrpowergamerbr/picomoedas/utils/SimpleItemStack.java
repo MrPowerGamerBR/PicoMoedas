@@ -32,7 +32,10 @@ public class SimpleItemStack {
 
         ItemMeta meta = item.getItemMeta();
 
-        meta.setDisplayName(name);
+        if (name != null) {
+            meta.setDisplayName(name);
+        }
+        
         meta.setLore(lore);
         for (ItemFlag flag : flags) {
             meta.addItemFlags(flag);
