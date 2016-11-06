@@ -152,11 +152,14 @@ public class PicoMoedas extends JavaPlugin implements Listener {
 
                 ItemInfo itemInfo = new ItemInfo();
                 SimpleItemStack17 simple;
-
+                SimpleItemStack17 onGui;
+                
                 if (canUseItemFlags) {
                     simple = new SimpleItemStack();
+                    onGui = new SimpleItemStack();
                 } else {
                     simple = new SimpleItemStack17();
+                    onGui = new SimpleItemStack17();
                 }
 
                 if (getConfig().contains(slotConf + "Grana")) {
@@ -196,9 +199,25 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 simple.setMaterial(Material.valueOf(getConfig().getString(slotConf + "Material")));
                 simple.setQuantidade(quantidade);
                 simple.setMeta(metadata);
-
+                onGui.setMaterial(Material.valueOf(getConfig().getString(slotConf + "Material")));
+                onGui.setQuantidade(quantidade);
+                onGui.setMeta(metadata);
+                
                 if (getConfig().contains(slotConf + "Nome")) {
                     simple.setName(ChatColor.translateAlternateColorCodes('&', getConfig().getString(slotConf + "Nome")));
+                    onGui.setName(ChatColor.translateAlternateColorCodes('&', getConfig().getString(slotConf + "Nome")));
+                    
+                    boolean showPreco = true;
+
+                    if (getConfig().contains(slotConf + "MostrarPreco")) {
+                        showPreco = getConfig().getBoolean(slotConf + "MostrarPreco");
+                    }
+                    
+                    if (showPreco) {
+                        if (itemInfo.getPrice() != 0) { 
+                            onGui.setName(onGui.getName() + ConfigValues.getFromConfigColorized(ConfigValues.Type.CUSTO_NOME).replace("{@custo}", String.valueOf(itemInfo.getPrice())));
+                        }
+                    }
                 }
 
                 if (getConfig().contains(slotConf + "Lore")) {
@@ -209,14 +228,17 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                         coloredLore.add(ChatColor.translateAlternateColorCodes('&', loreStr));
                     }
                     simple.setLore(coloredLore);
+                    onGui.setLore(coloredLore);
                 }
 
                 if (canUseItemFlags && getConfig().contains(slotConf + "ItemFlags")) {
                     SimpleItemStack simple18 = (SimpleItemStack) simple;
+                    SimpleItemStack onGui18 = (SimpleItemStack) simple;
                     List<String> flags = getConfig().getStringList(slotConf + "ItemFlags");
 
                     for (String itemFlagStr : flags) {
                         simple18.getFlags().add(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
+                        onGui18.getFlags().add(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
                     }
                 }
 
@@ -228,6 +250,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                         String[] split = toEnum.split(" ");
 
                         simple.getEnchants().put(split[0], Integer.parseInt(split[1]));
+                        onGui.getEnchants().put(split[0], Integer.parseInt(split[1]));
                     }
                 }
 
@@ -293,19 +316,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     }
 
                     itemInfo.setToGive(subItem);
-                }
-
-                boolean showPreco = true;
-                
-                if (getConfig().contains(slotConf + "MostrarPreco")) {
-                    showPreco = getConfig().getBoolean(slotConf + "MostrarPreco");
-                }
-                
-                if (showPreco) {
-                    if (itemInfo.getPrice() != 0) { 
-                        simple.setName(simple.getName() + ConfigValues.getFromConfigColorized(ConfigValues.Type.CUSTO_NOME).replace("{@custo}", String.valueOf(itemInfo.getPrice())));
-                    }
-                }
+                }          
 
                 if (canUseItemFlags) {
                     // Caso esteja usando a 1.8+, é necessário esconder os atributos do item
@@ -315,7 +326,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     simple18.getFlags().add(ItemFlag.HIDE_ATTRIBUTES);
                 }
                 
-                loja.items.put(slot - 1, new ItemWrapper(itemInfo, simple.toItemStack()));
+                loja.items.put(slot - 1, new ItemWrapper(itemInfo, onGui.toItemStack()));
             }
             lojas.add(loja);
         }
