@@ -116,7 +116,8 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 String slotConf = "Lojas." + lojaStr + ".Slots." + slot + ".";
 
                 ItemInfo itemInfo = new ItemInfo();
-
+                SimpleItemStack simple = new SimpleItemStack();
+                
                 if (getConfig().contains(slotConf + "Grana")) {
                     itemInfo.setSelling(true);
                     itemInfo.setPrice(getConfig().getDouble(slotConf + "Grana"));
@@ -150,13 +151,9 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 if (getConfig().contains(slotConf + "Meta")) {
                     metadata = ((byte) getConfig().getInt(slotConf + "Meta"));
                 }
-                
-                ItemStack item = new ItemStack(Material.valueOf(getConfig().getString(slotConf + "Material")), quantidade, metadata);
-
-                ItemMeta meta = item.getItemMeta();
 
                 if (getConfig().contains(slotConf + "Nome")) {
-                    meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', getConfig().getString(slotConf + "Nome")));
+                    simple.setName(ChatColor.translateAlternateColorCodes('&', getConfig().getString(slotConf + "Nome")));
                 }
 
                 if (getConfig().contains(slotConf + "Lore")) {
@@ -166,18 +163,16 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     for (String loreStr : lore) {
                         coloredLore.add(ChatColor.translateAlternateColorCodes('&', loreStr));
                     }
-                    meta.setLore(coloredLore);
+                    simple.setLore(coloredLore);
                 }
 
                 if (getConfig().contains(slotConf + "ItemFlags")) {
                     List<String> flags = getConfig().getStringList(slotConf + "ItemFlags");
 
                     for (String itemFlagStr : flags) {
-                        meta.addItemFlags(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
+                        simple.getFlags().add(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
                     }
                 }
-
-                item.setItemMeta(meta);
 
                 if (getConfig().contains(slotConf + "Enchants")) {
                     List<String> enchants = getConfig().getStringList(slotConf + "Enchants");
@@ -185,20 +180,21 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     for (String enchant : enchants) {
                         String toEnum = enchant.toUpperCase();
                         String[] split = toEnum.split(" ");
-                        Enchantment enchantment = Enchantment.getByName(split[0]);
 
-                        item.addUnsafeEnchantment(enchantment, Integer.parseInt(split[1]));
+                        simple.getEnchants().put(split[0], Integer.parseInt(split[1]));
                     }
                 }
 
+                itemInfo.setToGive(simple);
+                
                 // Tá, isto está ficando *meio* desorganizado...
                 if (getConfig().contains(slotConf + "ItemSeparado")) {
                     slotConf = "Lojas." + lojaStr + ".Slots." + slot + ".ItemSeparado.";
-                    SimpleItemStack simple = new SimpleItemStack();
+                    SimpleItemStack subItem = new SimpleItemStack();
                     
-                    simple.setMaterial(Material.valueOf(getConfig().getString(slotConf + "Material")));
+                    subItem.setMaterial(Material.valueOf(getConfig().getString(slotConf + "Material")));
                     if (getConfig().contains(slotConf + "Meta")) {
-                        simple.setMeta((byte) getConfig().getInt(slotConf + "Meta"));
+                        subItem.setMeta((byte) getConfig().getInt(slotConf + "Meta"));
                     }
                     
                     quantidade = 1;
@@ -207,10 +203,10 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                         quantidade = getConfig().getInt(slotConf + "Quantidade");
                     }
                     
-                    simple.setQuantidade(quantidade);
+                    subItem.setQuantidade(quantidade);
                     
                     if (getConfig().contains(slotConf + "Nome")) {
-                        simple.setName(ChatColor.translateAlternateColorCodes('&', getConfig().getString(slotConf + "Nome")));
+                        subItem.setName(ChatColor.translateAlternateColorCodes('&', getConfig().getString(slotConf + "Nome")));
                     }
 
                     if (getConfig().contains(slotConf + "Lore")) {
@@ -220,18 +216,16 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                         for (String loreStr : lore) {
                             coloredLore.add(ChatColor.translateAlternateColorCodes('&', loreStr));
                         }
-                        simple.setLore(coloredLore);
+                        subItem.setLore(coloredLore);
                     }
 
                     if (getConfig().contains(slotConf + "ItemFlags")) {
                         List<String> flags = getConfig().getStringList(slotConf + "ItemFlags");
 
                         for (String itemFlagStr : flags) {
-                            simple.getFlags().add(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
+                            subItem.getFlags().add(ItemFlag.valueOf(itemFlagStr.toUpperCase()));
                         }
                     }
-
-                    item.setItemMeta(meta);
 
                     if (getConfig().contains(slotConf + "Enchants")) {
                         List<String> enchants = getConfig().getStringList(slotConf + "Enchants");
@@ -240,14 +234,14 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                             String toEnum = enchant.toUpperCase();
                             String[] split = toEnum.split(" ");
 
-                            simple.getEnchants().put(split[0], Integer.parseInt(split[1]));
+                            subItem.getEnchants().put(split[0], Integer.parseInt(split[1]));
                         }
                     }
                     
-                    itemInfo.setToGive(simple);
+                    itemInfo.setToGive(subItem);
                 }
                 
-                loja.items.put(slot - 1, new ItemWrapper(itemInfo, item));
+                loja.items.put(slot - 1, new ItemWrapper(itemInfo, simple.toItemStack()));
             }
             lojas.add(loja);
         }
