@@ -22,11 +22,15 @@ Comandos:
 Mensagens:
     Custo: " &8[&a&l{@custo}&8]" # Isto aparece ao lado do nome do item na GUI em itens que custam grana
     SuasMoedas: "Moedas: {@moedas}"
+    # {@artigo} = o, a.
+    # Se você tem o MeninaAPI, ele irá alterar o artigo de acordo se o player é uma menina... ou não.
+    # Se você não usa o MeninaAPI, ele irá trocar para "o"
+    MoedasDoPlayer: "Moedas d{@artigo} {@player}: {@moedas}"
     SemMoedas: "Você não tem moedas suficientes!"
     VoceAdicionouOP: "&aVocê adicionou {@moedas} moedas na conta do {@player}"
     VoceRemoveuOP: "&aVocê removeu {@moedas} moedas da conta do {@player}"
 LojaPadrao: "Geral" # Quando alguém usar "/lojagui", ele irá abrir por padrão o menu "Geral"
-UsarEconomiaDoVault: false # Se você colocar true, ele irá usar o Vault para usar como economia. (Ou seja, você poderá usar o CraftConomy3 como economia em vez de usar a economia do PicoMoedas)
+UsarEconomiaDoVault: true # Se você colocar true, ele irá usar o Vault para usar como economia. (Ou seja, você poderá usar o CraftConomy3 como economia em vez de usar a economia do PicoMoedas)
 Lojas:
     Geral:
         Nome: "&6&lPicoMoedas" # Nome da GUI
