@@ -152,6 +152,10 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                     metadata = ((byte) getConfig().getInt(slotConf + "Meta"));
                 }
 
+                simple.setMaterial(Material.valueOf(getConfig().getString(slotConf + "Material")));
+                simple.setQuantidade(quantidade);
+                simple.setMeta(metadata);
+                
                 if (getConfig().contains(slotConf + "Nome")) {
                     simple.setName(ChatColor.translateAlternateColorCodes('&', getConfig().getString(slotConf + "Nome")));
                 }
