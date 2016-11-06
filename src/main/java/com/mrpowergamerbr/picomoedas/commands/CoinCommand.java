@@ -18,7 +18,7 @@ public class CoinCommand extends AbstractCommand {
         super(command, usage, description);
     }
 
-    public CoinCommand(String command, String usage, String description, List<String> aliases) {
+    public CoinCommand(String command, String usage, String description, List<String> aliases, String comoUsa) {
         super(command, usage, description, aliases);
     }
     

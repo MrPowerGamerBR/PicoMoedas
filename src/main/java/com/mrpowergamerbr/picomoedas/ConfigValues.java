@@ -17,7 +17,9 @@ public class ConfigValues {
         DEFAULT_TO_OPEN("LojaPadrao"),
         SUAS_MOEDAS("Mensagens.SuasMoedas"),
         SEM_MOEDAS_SUFICIENTES("Mensagens.SemMoedas"),
-        CUSTO_NOME("Mensagens.Custo");
+        CUSTO_NOME("Mensagens.Custo"),
+        VOCE_ADICIONOU_OP("Mensagens.VoceAdicionouOP"),
+        VOCE_REMOVEU_OP("Mensagens.VoceRemoveuOP");
         
         String name;
         

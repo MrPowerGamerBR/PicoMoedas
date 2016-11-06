@@ -15,7 +15,7 @@ public class LojaGUICommand extends AbstractCommand {
         super(command, usage, description);
     }
 
-    public LojaGUICommand(String command, String usage, String description, List<String> aliases) {
+    public LojaGUICommand(String command, String usage, String description, List<String> aliases, String comoUsa) {
         super(command, usage, description, aliases);
     }
     

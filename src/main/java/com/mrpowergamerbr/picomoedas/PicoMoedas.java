@@ -110,10 +110,14 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 aliases = getConfig().getStringList(confStr + "Aliases");
             }
             
+            String comoUsa = "/<command> [args]";
+            if (getConfig().contains(confStr + "ComoUsa")) {
+                comoUsa = getConfig().getString(confStr + "ComoUsa");
+            }
             
             try {
                 Class<?> c = Class.forName("com.mrpowergamerbr.picomoedas.commands." + clazzStr);
-                AbstractCommand t = (AbstractCommand) c.getDeclaredConstructor(String.class, String.class, String.class, List.class).newInstance(cmdName, "/<command> [args]", "Descrição", aliases);
+                AbstractCommand t = (AbstractCommand) c.getDeclaredConstructor(String.class, String.class, String.class, List.class, String.class).newInstance(cmdName, "/<command> [args]", "Descrição", aliases, comoUsa);
                 t.register();
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
                 // TODO Auto-generated catch block

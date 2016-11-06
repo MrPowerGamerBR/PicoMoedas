@@ -15,6 +15,7 @@ Comandos:
         - "editarmoedas"
         - "editarcash"
         - "editarcoin"
+        ComoUsa: "&c/{@comando} player quantidade"
     LojaGUI:
         Class: LojaGUICommand
         Comando: "lojagui"
@@ -22,6 +23,8 @@ Mensagens:
     Custo: " &8[&a&l{@custo}&8]" # Isto aparece ao lado do nome do item na GUI em itens que custam grana
     SuasMoedas: "Moedas: {@moedas}"
     SemMoedas: "Você não tem moedas suficientes!"
+    VoceAdicionouOP: "&aVocê adicionou {@moedas} moedas na conta do {@player}"
+    VoceRemoveuOP: "&aVocê removeu {@moedas} moedas da conta do {@player}"
 LojaPadrao: "Geral" # Quando alguém usar "/lojagui", ele irá abrir por padrão o menu "Geral"
 Lojas:
     Geral:
