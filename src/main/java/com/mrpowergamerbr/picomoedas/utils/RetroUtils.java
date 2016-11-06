@@ -10,13 +10,11 @@ import org.bukkit.entity.Player;
 
 public class RetroUtils {
 	public static Method getOP;
-	public static Method setHealth;
 
 	static {
 		try {
 			getOP = Bukkit.getServer().getClass().getMethod("getOnlinePlayers");
-			setHealth = Class.forName("org.bukkit.entity.LivingEntity").getMethod("setHealth");
-		} catch (NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+		} catch (NoSuchMethodException | SecurityException e) {
 			// Qual versão você está usando?
 			e.printStackTrace();
 		}
@@ -37,21 +35,6 @@ public class RetroUtils {
 		} catch (Exception e) {
 			// Oh no! Deu problema! Vamos usar o Bukkit.getOnlinePlayers() e torcer para que dê certo...
 			return Bukkit.getOnlinePlayers();
-		}
-	}
-
-	// Yay, workarounds!
-	public static void setHealth(LivingEntity entity, double d) {
-		try {
-			// 1.6+
-			setHealth.invoke(entity, d);
-		} catch (Exception e) {
-			try {
-				int i = (int) d;
-				setHealth.invoke(entity, (int) i);
-			} catch (Exception e2) {
-				entity.setHealth(d);
-			}
 		}
 	}
 }
