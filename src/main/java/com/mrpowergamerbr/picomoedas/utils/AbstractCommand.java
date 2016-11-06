@@ -25,6 +25,7 @@
 package com.mrpowergamerbr.picomoedas.utils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -33,6 +34,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 
 /**
  * For a How-To on how to use AbstractCommand see this post @ http://forums.bukkit.org/threads/195990/
@@ -117,6 +119,10 @@ public abstract class AbstractCommand implements CommandExecutor, TabExecutor {
     public abstract boolean onCommand(CommandSender sender, Command cmd, String label, String[] args);
     
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        return null;
+        ArrayList<String> players = new ArrayList<String>();
+        for (Player player : RetroUtils.getOnlinePlayers()) {
+            players.add(player.getName());
+        }
+        return players;
     }
 }
