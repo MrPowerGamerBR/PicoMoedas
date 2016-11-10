@@ -81,7 +81,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
             Bukkit.getLogger().log(Level.WARNING, "[PicoMoedas] que poderá afetar o seu servidor!");
         }
 
-        try(BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/saves.json"))) {
+        try(BufferedReader br = new BufferedReader(new FileReader(getDataFolder() + "/balances.json"))) {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
 
