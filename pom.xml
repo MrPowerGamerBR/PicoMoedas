@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>PicoMoedas</groupId>
 	<artifactId>PicoMoedas</artifactId>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>1.0.6-SNAPSHOT</version>
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
