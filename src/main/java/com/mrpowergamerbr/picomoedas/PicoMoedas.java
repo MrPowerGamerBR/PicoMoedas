@@ -72,7 +72,7 @@ public class PicoMoedas extends JavaPlugin implements Listener {
         try {
             ItemStack item = new ItemStack(Material.STONE);
             AttributeStorage attr = AttributeStorage.newTarget(item, ID);
-            attr.setData("Thais");
+            attr.setData("Katy Kat :3");
             canUseAttrStorage = true;
         } catch (Exception e) {
             // Se der exception, quer dizer que o servidor não suporta atributos no item... Hora da super gambiarra...
@@ -347,17 +347,6 @@ public class PicoMoedas extends JavaPlugin implements Listener {
                 }
             }
         }.runTaskTimerAsynchronously(this, 18000L, 18000L);
-
-        List<String> filosofia = Arrays.asList("Será que alguém está lendo isto? ...", "Eu espero que não...");
-        filosofia = Arrays.asList("Será que algum dia nós iremos ficar juntos? ...não, não estou falando com você, pessoa que está lendo o meu código-fonte.");
-        filosofia = Arrays.asList("Sei lá, eu acho que não... Mesmo que eu queria bastante que isto acontecesse...");
-        filosofia = Arrays.asList("Mas é assim a vida, isto que acontece com pessoas que demoram demais para obter coragem para realizar as coisas...");
-        filosofia = Arrays.asList("...");
-        filosofia = Arrays.asList("Mas isto não quer dizer que não tenha alguma chance, né?");
-        filosofia = Arrays.asList("...");
-        filosofia = Arrays.asList("<3");
-
-        filosofia.size();
     }
 
     public void onDisable() {
